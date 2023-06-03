@@ -11,13 +11,13 @@ npm i -g @dchicchon/puppet
 # Usage
 
 ```
-puppet `<command>` [options]
+puppet <command> [options]
 ```
 
 ### Commands
 
 ```
-puppet command `"<command>"` [filter]
+puppet command "<command>" [filter]
 # Send a command to all sub repos. You
   must wrap your command in quotes to
   ensure it's passed in properly
