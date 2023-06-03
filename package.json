@@ -1,0 +1,31 @@
+{
+  "name": "@dchicchon/puppet",
+  "version": "1.0.0",
+  "description": "tools for wrangling microservices",
+  "type": "module",
+  "main": "bin/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "dchicchon",
+  "license": "ISC",
+  "bin": {
+    "puppet": "bin/index.js"
+  },
+  "dependencies": {
+    "ansi-colors": "^4.1.3",
+    "cli-progress": "^3.12.0",
+    "table": "^6.8.1",
+    "yargs": "^17.7.2"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dchicchon/puppet.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dchicchon/puppet/issues"
+  },
+  "homepage": "https://github.com/dchicchon/puppet#readme"
+}
