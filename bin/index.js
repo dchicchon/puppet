@@ -313,7 +313,7 @@ yargs(hideBin(process.argv))
   .command(
     ['command <command> [filter]', "co"],
     _colors.yellowBright(
-      "Send a command to all sub repos. You must wrap your command in quotes to ensure it's passed in properly"
+      'Send a command to all sub repos. You must wrap your command in quotes ("") to ensure its passed in properly'
     ),
     commandBuilder,
     commandHandler
