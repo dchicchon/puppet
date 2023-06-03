@@ -1,6 +1,6 @@
 {
   "name": "@dchicchon/puppet",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "tools for wrangling microservices",
   "type": "module",
   "main": "bin/index.js",
