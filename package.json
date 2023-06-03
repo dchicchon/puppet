@@ -1,13 +1,16 @@
 {
   "name": "@dchicchon/puppet",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "tools for wrangling microservices",
   "type": "module",
   "main": "bin/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "keywords": [
+    "microservices",
+    "tools"
+  ],
   "author": "dchicchon",
   "license": "ISC",
   "bin": {
