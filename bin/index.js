@@ -82,7 +82,7 @@ const updateHandler = (args) => {
 };
 
 const branchesCommand = (args) => {
-  const { branches } = getFiles(args.filter);
+  const { branches } = getFiles(args.filter, true);
   if (branches.length === 0) return;
   loggy.info("Branches Info");
   loggy.info(table([["Repository", "Branch"]].concat(branches)));
@@ -101,8 +101,10 @@ function hasGitFile(parsedPath) {
 }
 
 function getBranch(path) {
-  const getBranchName = `git rev-parse --abbrev-ref HEAD`;
-  return execSync(runAtPath(path, getBranchName)).toString().replace(/\n/g, "");
+  if (hasGitFile(path)) {
+    const getBranchName = `git rev-parse --abbrev-ref HEAD`;
+    return execSync(runAtPath(path, getBranchName)).toString().replace(/\n/g, "");
+  }
 }
 
 async function runCommand(command, repos, showProgress) {
@@ -167,7 +169,7 @@ async function runCommand(command, repos, showProgress) {
   }
 }
 
-function getFiles(filterList) {
+function getFiles(filterList, checkForGit) {
   const rootPath = execSync("pwd").toString().replace(/\n/, "");
   const foundFilters = [];
   const branches = [];
@@ -179,21 +181,35 @@ function getFiles(filterList) {
         const filePath = resolve(rootPath, output);
         const parsedPath = filePath.replace("\n", "");
         if (isDir(parsedPath) && hasGitFile(parsedPath)) {
-          try {
-            const branch = getBranch(parsedPath);
-            if (!filterList) {
-              branches.push([output, branch]);
-              return true;
+          if (checkForGit && hasGitFile(parsedPath)) {
+            try {
+              const branch = getBranch(parsedPath);
+              if (!filterList) {
+                branches.push([output, branch]);
+                return true;
+              }
+              if (filterList.includes(output)) {
+                branches.push([output, branch]);
+                foundFilters.push(output);
+                return true;
+              }
+            } catch (err) {
+              return false;
             }
-            if (filterList.includes(output)) {
-              branches.push([output, branch]);
-              foundFilters.push(output);
-              return true;
+          } else {
+            try {
+              if (!filterList) {
+                return true;
+              }
+              if (filterList.includes(output)) {
+                foundFilters.push(output);
+                return true;
+              }
+            } catch (err) {
+              return false;
             }
-          } catch (err) {
-            console.log('err')
-            return false;
           }
+
         }
       }
       return false;
@@ -229,7 +245,7 @@ function getConfigFile(override) {
 
 function saveConfigCommand(args) {
   loggy.info(`Saving config ${args.name}`);
-  const { branches } = getFiles(args.filter);
+  const { branches } = getFiles(args.filter, true);
   const configName = args.name;
   const configFile = getConfigFile(true);
   if (configFile) {
