@@ -18,55 +18,48 @@ puppet `<command>` [options]
 
 ```
 puppet command `"<command>"` [filter]
-```
-
-- Send a command to all sub repos. You
+# Send a command to all sub repos. You
   must wrap your command in quotes to
   ensure it's passed in properly
-- [aliases: co]
+# [aliases: co]
+```
 
 ```
 puppet update [filter]
+# Update all sub repos to their current branch
+# [aliases: up]
 ```
-
-- Update all sub repos to their current branch
-- [aliases: up]
 
 ```
 puppet branches [filter]
+# Get the list of branches for all your sub repos
+# [aliases: br]
 ```
-
-- Get the list of branches for all your sub repos
-- [aliases: br]
 
 ```
 puppet save `<name>` [filter]
+# Save the current branch configuration for all sub repos
+# [aliases: sv]
 ```
-
-- Save the current branch configuration for all sub repos
-- [aliases: sv]
 
 ```
 puppet remove `<name>`
+# Remove a branch configuration
+# [aliases: rm]
 ```
-
-- Remove a branch configuration
-- [aliases: rm]
 
 ```
 puppet run `<name>`
-```
-
-- change to a saved branch configurati
+# change to a saved branch configurati
   on
-- [aliases: rn]
+# [aliases: rn]
+```
 
 ```
 puppet get [name]
+# view all configurations available. If name is specified, the branch configuration will be shown
+# [aliases: gt]
 ```
-
-- view all configurations available. If name is specified, the branch configuration will be shown
-- [aliases: gt]
 
 Options:
 
