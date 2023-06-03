@@ -311,7 +311,7 @@ yargs(hideBin(process.argv))
   .scriptName(_colors.greenBright("puppet"))
   .usage("$0 <command> [options]")
   .command(
-    ['command "<command>" [filter]', "co"],
+    ['command <command> [filter]', "co"],
     _colors.yellowBright(
       "Send a command to all sub repos. You must wrap your command in quotes to ensure it's passed in properly"
     ),
