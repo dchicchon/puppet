@@ -2,6 +2,10 @@
 
 tools for wrangling microservices
 
+# Installation
+
+npm i -g @dchicchon/puppet
+
 # Usage
 
 puppet `<command>` [options]
