@@ -16,7 +16,7 @@ const myexec = promisify(exec);
 const isDir = (path) => fs.existsSync(path) && fs.lstatSync(path).isDirectory();
 
 class Logger {
-  constructor(props) {}
+  constructor(props) { }
   setVerbosity(bool) {
     this.verbose = bool;
   }
@@ -94,6 +94,10 @@ function updateCommand(name) {
 
 function runAtPath(name, command) {
   return `cd ${name} && ${command}`;
+}
+
+function hasGitFile(parsedPath) {
+  return fs.existsSync(`${parsedPath}/.git`)
 }
 
 function getBranch(path) {
@@ -174,7 +178,7 @@ function getFiles(filterList) {
       if (output) {
         const filePath = resolve(rootPath, output);
         const parsedPath = filePath.replace("\n", "");
-        if (isDir(parsedPath)) {
+        if (isDir(parsedPath) && hasGitFile(parsedPath)) {
           try {
             const branch = getBranch(parsedPath);
             if (!filterList) {
@@ -187,6 +191,7 @@ function getFiles(filterList) {
               return true;
             }
           } catch (err) {
+            console.log('err')
             return false;
           }
         }
