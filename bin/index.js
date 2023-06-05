@@ -155,7 +155,10 @@ async function runCommand(command, repos, showProgress) {
         }
         loggy.log(`Command error in ${repo}`);
         loggy.log(err);
-        errorsInCommands.push(err);
+        errorsInCommands.push({
+          repo,
+          err
+        });
       });
     promises.push(promise);
   });
@@ -165,7 +168,10 @@ async function runCommand(command, repos, showProgress) {
   }
   if (errorsInCommands.length > 0) {
     loggy.warn("Error in commands");
-    loggy.warn(errorsInCommands);
+    errorsInCommands.forEach(error => {
+      loggy.warn(error.repo)
+      loggy.warn(error.err)
+    })
   }
 }
 
@@ -323,6 +329,36 @@ function commandBuilder(yInst) {
   });
 }
 
+/**
+ * 
+ * @param {Array} options 
+ * @returns 
+ */
+function builder(options) {
+  const availableOptions = {
+    name: {
+      description: "name of config to show",
+      alias: "n",
+      type: "string",
+    },
+    filter: {
+      description: "array of sub repos to use",
+      alias: "f",
+      type: "array",
+    },
+  }
+  const setOptions = {};
+  options.forEach(option => {
+    if (availableOptions[option]) {
+      setOptions[option] = availableOptions[option]
+    }
+  })
+  const builderFunc = (yinst) => {
+    return yinst.options(setOptions)
+  }
+  return builderFunc
+}
+
 yargs(hideBin(process.argv))
   .scriptName(_colors.greenBright("puppet"))
   .usage("$0 <command> [options]")
@@ -331,19 +367,19 @@ yargs(hideBin(process.argv))
     _colors.yellowBright(
       'Send a command to all sub repos. You must wrap your command in quotes ("") to ensure its passed in properly'
     ),
-    commandBuilder,
+    builder(['filter']),
     commandHandler
   )
   .command(
     ["update [filter]", "up"],
     _colors.yellowBright("Update all sub repos to their current branch"),
-    commandBuilder,
+    builder(['filter']),
     updateHandler
   )
   .command(
     ["branches [filter]", "br"],
     _colors.yellowBright("Get the list of branches for all your sub repos"),
-    commandBuilder,
+    builder(['filter']),
     branchesCommand
   )
   .command(
@@ -351,51 +387,19 @@ yargs(hideBin(process.argv))
     _colors.yellowBright(
       "Save the current branch configuration for all sub repos"
     ),
-    (yInst) => {
-      return yInst.options({
-        filter: {
-          description: "array of sub repos to use",
-          alias: "f",
-          type: "array",
-        },
-        name: {
-          description: "name of the saved config",
-          alias: "n",
-          type: "string",
-          demandOption: true,
-        },
-      });
-    },
+    builder(['filter', 'name']),
     saveConfigCommand
   )
   .command(
     ["remove <name>", "rm"],
     _colors.yellowBright("Remove a branch configuration"),
-    (yInst) => {
-      return yInst.options({
-        name: {
-          description: "name of config to delete",
-          alias: "n",
-          type: "string",
-          demandOption: true,
-        },
-      });
-    },
+    builder(['name']),
     removeConfigCommand
   )
   .command(
     ["run <name>", "rn"],
     _colors.yellowBright("change to a saved branch configuration"),
-    (yInst) => {
-      return yInst.options({
-        name: {
-          description: "name of config to run",
-          alias: "n",
-          type: "string",
-          demandOption: true,
-        },
-      });
-    },
+    builder(['name']),
     runConfigCommand
   )
   .command(
