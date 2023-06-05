@@ -153,7 +153,7 @@ async function runCommand(command, repos, showProgress) {
         if (showProgress) {
           bar.increment(increment);
         }
-        loggy.log(`Command error in ${repo}`);
+        loggy.log(`\nCommand error in ${repo}`);
         loggy.log(err);
         errorsInCommands.push({
           repo,
@@ -169,7 +169,7 @@ async function runCommand(command, repos, showProgress) {
   if (errorsInCommands.length > 0) {
     loggy.warn("Error in commands");
     errorsInCommands.forEach(error => {
-      loggy.warn(error.repo)
+      loggy.warn(`Directory: ${error.repo}`)
       loggy.warn(error.err)
     })
   }
