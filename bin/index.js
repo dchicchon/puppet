@@ -319,16 +319,6 @@ function getConfigsCommand(args) {
   });
 }
 
-function commandBuilder(yInst) {
-  return yInst.options({
-    filter: {
-      description: "array of sub repos to use",
-      alias: "f",
-      type: "array",
-    },
-  });
-}
-
 /**
  * 
  * @param {Array} options 
