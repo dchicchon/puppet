@@ -43,7 +43,7 @@ const home = homedir();
 const pathToDir = `${home}/.puppet`;
 const pathToConfigFile = `${pathToDir}/configs.json`;
 
-const commandHandler = (args) => {
+const commandHandler = async (args) => {
   const { listedFiles } = getFiles(args.filter);
   if (args.verbose) {
     loggy.setVerbosity(true);
@@ -58,11 +58,11 @@ const commandHandler = (args) => {
   });
   if (listedFiles.length === 0) return;
   loggy.info("Running puppets...");
-  runCommand(command, listedFiles, true);
+  await runCommand(command, listedFiles, true);
   loggy.info("Puppets done!");
 };
 
-const updateHandler = (args) => {
+const updateHandler = async (args) => {
   const { listedFiles } = getFiles(args.filter);
   if (args.verbose) {
     loggy.setVerbosity(true);
@@ -77,7 +77,7 @@ const updateHandler = (args) => {
   });
   if (listedFiles.length === 0) return;
   loggy.info("Running puppets...");
-  runCommand(command, listedFiles, true);
+  await runCommand(command, listedFiles, true);
   loggy.info("Puppets done!");
 };
 
