@@ -295,7 +295,7 @@ async function runConfigCommand(args) {
 
   loggy.info(`running ${args.name} configuration`);
   config.forEach(([repo, branch]) => {
-    const command = `git ch ${branch}`;
+    const command = `git stash && git ch ${branch}`;
     runCommand(command, [repo], false);
   });
   loggy.info(`running ${args.name} configuration done`);
